@@ -7,6 +7,10 @@ var image1Index = null;
 var image2Index = null;
 var image3Index = null;
 var vote = 0;
+var previousArray = [];
+var nameArray = [];
+var viewArray = [];
+var clickedArray = [];
 
 function Images (name, image){
   this.name = name;
@@ -15,17 +19,37 @@ function Images (name, image){
   this.views = 0;
   Images.allImages.push(this);
 }
+// function populateNameArray(){
+//   for(var i = 0; i < Images.allImages.length; i++)
+
+//   populateNameArray.nameArray.push();
+// }
+
+// function populateViewArray(){
+//   for(var i = 0; i < Images.allImages.length; i++)
+
+//   populateViewArray.nameArray.push();
+// }
+
+// function populateClickArray (){
+//   for(var i = 0; i < Images.allImages.length; i++)
+
+//   populateClickedArray.nameArray.push();
+// }
+
 function randomImage(){
   var createRandom = Math.floor(Math.random()*Images.allImages.length);
   return createRandom;
 }
 
 function renderImages(){
+
   do{
     image1Index = randomImage();
     image2Index = randomImage();
     image3Index = randomImage();
-  } while(image1Index === image2Index || image2Index === image3Index || image3Index === image1Index)
+
+  } while(image1Index === image2Index || image2Index === image3Index || image3Index === image1Index || image1Index === previousArray.includes(image1Index) || image2Index === previousArray.includes(image2Index) || image3Index === previousArray.includes(image3Index));
 
   Images.allImages[image1Index].views++;
   Images.allImages[image2Index].views++;
@@ -35,9 +59,14 @@ function renderImages(){
   img2.src = Images.allImages[image2Index].image;
   img3.src = Images.allImages[image3Index].image;
 
+  previousArray = [];
+
+  previousArray.push(image1Index);
+  previousArray.push(image2Index);
+  previousArray.push(image3Index);
 }
 
-// renderImages();
+
 var clickedImage = function(event){
   var imageClicked = event.target.id;
   // console.log(imageClicked);
@@ -54,15 +83,52 @@ var clickedImage = function(event){
     alert('Please select an image');
   }
 
-  if(vote === 25){
+  if(vote === 5){
     imagesTags.removeEventListener('click', clickedImage);
-    for(var i=0; i< Images.allImages.length; i++){
-      var picture = Images.allImages[i];
-      alert('${img.name} was viewed ${img.views} with ${clicks} clicks. Thank you for participating.');
-    }
+    viewChart();
   }else{
     renderImages();
   }
+};
+
+function viewChart(){
+  var ctx = document.getElementById('myChart').getContext('2d');
+  var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+      datasets: [{
+        label: '# of Votes',
+        data: [12, 19, 3, 5, 2, 3],
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)'
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+  });
 }
 
 
@@ -83,7 +149,7 @@ new Images ('Pizza Scissors', 'img/directory/scissors.jpg');
 new Images ('Shark Sleeping Bag', 'img/directory/shark.jpg');
 new Images ('Baby Sweeper', 'img/directory/sweep.png');
 new Images ('TaunTaun', 'img/directory/tauntaun.jpg');
-new Images ('Unicorn Meat', 'img/directory/unicron.jpg');
+new Images ('Unicorn Meat', 'img/directory/unicorn.jpg');
 new Images ('USB', 'img/directory/usb.gif');
 new Images ('Wateringcan', 'img/directory/water-can.jpg');
 new Images ('Wine Glass', 'img/directory/wine-glass.jpg');
