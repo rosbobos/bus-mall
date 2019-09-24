@@ -19,23 +19,23 @@ function Images (name, image){
   this.views = 0;
   Images.allImages.push(this);
 }
-// function populateNameArray(){
-//   for(var i = 0; i < Images.allImages.length; i++)
+function populateNameArray(){
+  for(var i = 0; i < Images.allImages.length; i++){
+    nameArray.push(Images.allImages[i].name);
+  }
+}
 
-//   populateNameArray.nameArray.push();
-// }
+function populateViewArray(){
+  for(var i = 0; i < Images.allImages.length; i++){
+    viewArray.push(Images.allImages[i].views);
+  }
+}
 
-// function populateViewArray(){
-//   for(var i = 0; i < Images.allImages.length; i++)
-
-//   populateViewArray.nameArray.push();
-// }
-
-// function populateClickArray (){
-//   for(var i = 0; i < Images.allImages.length; i++)
-
-//   populateClickedArray.nameArray.push();
-// }
+function populateClickArray (){
+  for(var i = 0; i < Images.allImages.length; i++){
+    clickedArray.push(Images.allImages[i].clicked);
+  }
+}
 
 function randomImage(){
   var createRandom = Math.floor(Math.random()*Images.allImages.length);
@@ -159,4 +159,7 @@ new Images ('Wine Glass', 'img/directory/wine-glass.jpg');
 console.log(Images.allImages);
 renderImages();
 imagesTags.addEventListener('click', clickedImage);
+populateNameArray();
+populateViewArray();
+populateClickArray();
 
