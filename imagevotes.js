@@ -31,7 +31,7 @@ function populateViewArray(){
   }
 }
 
-function populateClickArray (){
+function populateClickArray(){
   for(var i = 0; i < Images.allImages.length; i++){
     clickedArray.push(Images.allImages[i].clicked);
   }
@@ -71,20 +71,25 @@ var clickedImage = function(event){
   var imageClicked = event.target.id;
   // console.log(imageClicked);
   if (imageClicked === 'image1'){
-    Images.allImages[0].clicked++;
+    Images.allImages[image1Index].clicked++;
     vote++;
   } else if(imageClicked === 'image2'){
-    Images.allImages[1].clicked++;
+    Images.allImages[image2Index].clicked++;
     vote++;
   } else if(imageClicked === 'image3'){
-    Images.allImages[2].clicked++;
+    Images.allImages[image3Index].clicked++;
     vote++;
   } else{
     alert('Please select an image');
   }
 
-  if(vote === 5){
+  if(vote === 25){
     imagesTags.removeEventListener('click', clickedImage);
+    populateViewArray();
+    populateClickArray();
+    console.log('clicks' + clickedArray);
+    console.log('views' +viewArray);
+    console.log(Images.allImages);
     viewChart();
   }else{
     renderImages();
@@ -96,10 +101,10 @@ function viewChart(){
   var myChart = new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+      labels: nameArray,
       datasets: [{
         label: '# of Votes',
-        data: [12, 19, 3, 5, 2, 3],
+        data: clickedArray,
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
           'rgba(54, 162, 235, 0.2)',
@@ -160,6 +165,5 @@ console.log(Images.allImages);
 renderImages();
 imagesTags.addEventListener('click', clickedImage);
 populateNameArray();
-populateViewArray();
-populateClickArray();
 
+console.log(clickedArray);
