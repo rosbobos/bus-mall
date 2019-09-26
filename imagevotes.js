@@ -3,6 +3,7 @@ var imagesTags = document.getElementById('images');
 var img1 = document.getElementById('image1');
 var img2 = document.getElementById('image2');
 var img3 = document.getElementById('image3');
+var threeShown = [img1, img2, img3];
 var image1Index = null;
 var image2Index = null;
 var image3Index = null;
@@ -12,6 +13,7 @@ var nameArray = [];
 var viewArray = [];
 var clickedArray = [];
 
+
 function Images (name, image){
   this.name = name;
   this.image = image;
@@ -19,6 +21,22 @@ function Images (name, image){
   this.views = 0;
   Images.allImages.push(this);
 }
+function updateStorageImage(){
+  var jsonString = JSON.stringify(Images.allImages);
+  localStorage.setItem('image', jsonString);
+  // console.log('pie', updateStorageImage);
+}
+function retrieveData(){
+  var data = localStorage.getItem('image');
+  if(data){
+    var parsedData = JSON.parse(data);
+    Images.allImages = parsedData;
+    renderImages();
+  } else{
+    renderImages();
+  }
+}
+
 function populateNameArray(){
   for(var i = 0; i < Images.allImages.length; i++){
     nameArray.push(Images.allImages[i].name);
@@ -43,34 +61,37 @@ function randomImage(){
 }
 
 function renderImages(){
-
-  do{
-    image1Index = randomImage();
-    image2Index = randomImage();
-    image3Index = randomImage();
-
-  } while(image1Index === image2Index || image2Index === image3Index || image3Index === image1Index || image1Index === previousArray.includes(image1Index) || image2Index === previousArray.includes(image2Index) || image3Index === previousArray.includes(image3Index));
-
-  Images.allImages[image1Index].views++;
-  Images.allImages[image2Index].views++;
-  Images.allImages[image3Index].views++;
-
-  img1.src = Images.allImages[image1Index].image;
-  img2.src = Images.allImages[image2Index].image;
-  img3.src = Images.allImages[image3Index].image;
-
-  previousArray = [];
-
-  previousArray.push(image1Index);
-  previousArray.push(image2Index);
-  previousArray.push(image3Index);
+  while(previousArray.length < 6){
+    var randImg = randomImage();
+    while(!previousArray.includes(randImg)){
+      previousArray.push(randImg);
+    }
+  }
+  for(var i = 0; i < previousArray.length; i++){
+    var remove = previousArray.shift();
+    console.log(remove);
+    threeShown[i].src = Images.allImages[remove].image;
+    // Images.threeShown[i].id = Images.all[remove].name;
+    Images.allImages[remove].views +=1;
+    console.log(threeShown[i].id);
+    if(threeShown[i].id === 'image1'){
+      image1Index = remove;
+    } else if(threeShown[i].id === 'image2'){
+      image2Index = remove;
+    } else if (threeShown[i].id === 'image3'){
+      image3Index= remove;
+    }
+  }
 }
+
 
 
 var clickedImage = function(event){
   var imageClicked = event.target.id;
   // console.log(imageClicked);
   if (imageClicked === 'image1'){
+    console.log(image1Index);
+    console.log(Images.allImages[image1Index]);
     Images.allImages[image1Index].clicked++;
     vote++;
   } else if(imageClicked === 'image2'){
@@ -90,6 +111,7 @@ var clickedImage = function(event){
     console.log('clicks' + clickedArray);
     console.log('views' +viewArray);
     console.log(Images.allImages);
+    updateStorageImage();
     viewChart();
   }else{
     renderImages();
@@ -162,8 +184,9 @@ new Images ('Wine Glass', 'img/directory/wine-glass.jpg');
 
 
 console.log(Images.allImages);
-renderImages();
+// renderImages();
 imagesTags.addEventListener('click', clickedImage);
 populateNameArray();
 
+retrieveData();
 console.log(clickedArray);
