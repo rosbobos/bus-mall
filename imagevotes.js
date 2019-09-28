@@ -104,7 +104,7 @@ var clickedImage = function(event){
     alert('Please select an image');
   }
 
-  if(vote === 25){
+  if(vote === 2){
     imagesTags.removeEventListener('click', clickedImage);
     populateViewArray();
     populateClickArray();
@@ -117,17 +117,17 @@ var clickedImage = function(event){
     renderImages();
   }
 };
-function changeColor(){
-  var redStart = 267;
-  var blueStart =-12;
-  var rgbArray = [];
-  for(var i=0; i<clickedArray.length; i++){
-    redStart= redStart-12;
-    blueStart= blueStart+12;
-    rgbArray.push(`rgba(${redStart}, 0, ${blueStart}, 1`);
-  }
-  return rgbArray;
-}
+// function changeColor(){
+//   var redStart = 267;
+//   var blueStart =-12;
+//   var rgbArray = [];
+//   for(var i=0; i<clickedArray.length; i++){
+//     redStart= redStart-12;
+//     blueStart= blueStart+12;
+//     rgbArray.push(`rgba(${redStart}, 0, ${blueStart}, 1`);
+//   }
+//   return rgbArray;
+// }
 function changeViewsColor(){
   var redStart = -12;
   var blueStart =267;

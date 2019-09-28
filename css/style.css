@@ -1,3 +1,28 @@
+*{
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+body{
+  text-align: center;
+  /* background-image is sourced from https://www.canva.com/photos/MADGx-MGB4c-purple-and-blue-abstract-wallpaper/?action=DOWNLOAD */
+  background-image: url("../img/canva.jpg");
+  background-size: 100vw;
+  
+}
+h1{
+  background-color: rgba(255, 170, 226, 0.6); 
+  color: rgb(2, 132, 197);
+  font-size:5vw;
+  text-shadow: 2px 2px black;
+}
+h3{
+  background-color: rgba(16, 130, 189, 0.6);
+  color: rgba(255, 255, 255, 0.7);
+  text-shadow: 2px 2px #da6da3;
+  font-size:3vw;
+}
+
 img{
-  max-width: 30%;
+  width: 20vw;
+  height: 20vw;
 }
