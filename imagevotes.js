@@ -104,7 +104,7 @@ var clickedImage = function(event){
     alert('Please select an image');
   }
 
-  if(vote === 2){
+  if(vote === 25){
     imagesTags.removeEventListener('click', clickedImage);
     populateViewArray();
     populateClickArray();
